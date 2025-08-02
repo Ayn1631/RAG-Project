@@ -31,12 +31,10 @@ class Retriever(ABC):
     
     @abstractmethod
     def save_to_file(self, file_path: str):
-        # 当前函数return 的值, 会作为load_from_file函数的data_dict['当前类名']得到!
         pass
     
     @abstractmethod
     def load_from_file(self, data_dict: dict):
-        # save_to_file函数return的值, 会作为data_dict['当前类名']得到!
         pass
 
 logger = logging.getLogger(f"Recall Loading")

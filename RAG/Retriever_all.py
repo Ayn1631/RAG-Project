@@ -2,6 +2,7 @@ from typing import List
 import logging
 from importlib import import_module
 from traceback import print_exc
+import traceback
 # from langchain.vectorstores import FAISS
 
 class Retriever:
@@ -27,6 +28,7 @@ class Retriever:
     
     def load_from_file(self, data_dict: dict):
         self.id_to_doc = data_dict['id_to_doc'].copy()
+        self.id_to_doc = {int(k): v for k, v in self.id_to_doc.items()}  # 确保id是int类型
         for recall_func in self.recall_dict:
             self.recall_dict[recall_func].load_from_file(data_dict)
         return self
@@ -39,7 +41,7 @@ class Retriever:
             self.logger.info(f"Loading {recall_func}...")
             func_kwds = self.recall_config[recall_func]
             try:
-                module = import_module(f"Multi_Recall.{recall_func}")  # 动态导入包
+                module = import_module(f"utils.RAG.Multi_Recall.{recall_func}")  # 动态导入包
             except Exception as e:
                 self.logger.error(f"Error loading {recall_func}: {e}")
                 print_exc()
